@@ -49,7 +49,7 @@ int baudRate = 9600;                  // setup a common baudrate for UNO and ESP
 //variables for internet time routine
 char AEDTString[11];
 long AEDTTime;
-char buffer[200];
+char buffer[20];
 int i = 0;
 
 // setup the ESP emulated serial channel
@@ -69,6 +69,7 @@ void setup() {
   t = now();
   Serial.println("Arduino Receiver Starting");
   print_current_time();
+  esp.print("0");                     // indicate to sender that receiver is ready for time transmission
 
 }
 

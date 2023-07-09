@@ -293,10 +293,8 @@ void Send_ESP_Data() {
       }
     }
     else {
-      delay (100);                // wait a littlre for receiver to start listening
-      uno.print("AET");
-      uno.print(eastern);
-      Serial.println("NTP sent to Arduino - waiting for response");    
+      delay (100);                // wait a little for receiver to start listening
+ 
     }
   }
   Serial.println("NTP time transmitted");
