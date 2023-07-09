@@ -2,12 +2,12 @@
 This project builds on an earlier project 'Analogue (Analog) Clock Display using a GC9A01 display attached to an ESP32' but adds the sounds of chimes and strikes as per a large clock such as Big Ben.
 An ESP32 using its WiFi capabilities acquires NTP time, transmits this time to an Arduino with a DFPlayer to make sounds, and then the ESP32 displays an analogue clock on the GA9A01 display unit.
 Since the time of the Ardunio is synchronised (at least initially) with the ESP, the timing of the chimes and strikes by the Arduino will very closely match the display attached to the ESP32. Of course, over a long period of time, the clocks of the Arduino and ESP may deviate given the limitations of accuracy of their internal clocks.
-Rather than repeat the details of the earlier project, please refer to that project for basic information about displaying an analogue clock face. The information is the additional instructions for adding sound.
+Rather than repeat the details of the earlier project, please refer to that project for basic information about displaying an analogue clock face. The information below is the additional instructions for adding sound.
 
 ## What you will need (in addition to that specified in earlier project):
 - Arduino Uno (or similar)
 - DFPlayer mini MP3 module
-- resistors: 3.3K, 2.2K 1K
+- resistors: 3.3K, 2.2K, 1K
 - jumper wires
 - unpowered speaker (8 ohm 1 watt cube speaker, as found in model railroading, works well)
 
@@ -42,8 +42,7 @@ Rather than repeat the details of the earlier project, please refer to that proj
 - Edit this file and enter your WiFi credentials (name and password)
 
 ## STEP 5: Suggested pinouts
-- Below is a suggested pinout table but other pins can be used.
-
+- Below is a suggested pinout table with connections but other pins can be used.
 
 | TFT_eSPI  | GC9A01    | ESP32 | Arduino | DFPlayer  | Speaker |
 | --------  | ------    | ----- | ------- | --------  | ------- |
