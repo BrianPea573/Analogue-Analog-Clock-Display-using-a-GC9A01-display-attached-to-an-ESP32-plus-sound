@@ -1,6 +1,7 @@
-# Analogue-Analog-Clock-Display-using-a-GC9A01-display-attached-to-an-ESP32-with-sound
+# Analogue Analog Clock Display using a GC9A01 display attached to an ESP32 and with an Arduino with sound
 This project builds on an earlier project 'Analogue (Analog) Clock Display using a GC9A01 display attached to an ESP32' but adds the sounds of chimes and strikes as per a large clock such as Big Ben.
-An ESP32 using its WiFi capabilities acquires NTP time, transmits this time to an Arduino with a DFPlayer to make sounds, and then displays an analogue clock on the GA9A01 display unit.
+An ESP32 using its WiFi capabilities acquires NTP time, transmits this time to an Arduino with a DFPlayer to make sounds, and then the ESP32 displays an analogue clock on the GA9A01 display unit.
+Since the time of the Ardunio is synchronised (at least initially) with the ESP, the timing of the chimes and strikes by the Arduino will very closely match the display attached to the ESP32. Of course, over a long period of time, the clocks of the Arduino and ESP may deviate given the limitations of accuracy of their internal clocks.
 Rather than repeat the details of the earlier project, please refer to that project for basic information about displaying an analogue clock face. The information is the additional instructions for adding sound.
 
 ## What you will need (in addition to that specified in earlier project):
@@ -17,7 +18,19 @@ Rather than repeat the details of the earlier project, please refer to that proj
 ## STEP 2: Connect the Arduino and ESP32 for serial communication
 1. Again, there are any number of tutorials on this topic.
 
-## STEP 3: Suggested pinouts
+## STEP 3: Download the various files and load them on your PC as follows:
+1. In a folder called GC9A01A_Clock_ESP32_Sound_GitHub, load the following files:
+- BigBen_16bit.h
+- GC9A01A_Clock_ESP32_Sound_GitHub.ino
+- hourHand.h
+- minuteHand.h
+- NTP_Time.h
+- secondHand.h
+1. In a folder called Arduino_Clock_Chimes, load the following files:
+- folder called mp3
+- Arduino_Clock_Chimes.ino
+
+## STEP 4: Suggested pinouts
 1. Below is a suggested pinout table but other pins can be used.
 
 
