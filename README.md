@@ -16,7 +16,7 @@ Rather than repeat the details of the earlier project, please refer to that proj
 1. Although any number of different pins can be used to attach the DFPlayer to the Arduino, I prefer to avoid the normal digital pins up to D13 so they can be used for other purposes. See below for the pins that I have used.
 
 ## STEP 2: Connect the Arduino and ESP32 for serial communication
-1. Again, there are any number of tutorials on this topic.
+- Again, there are any number of tutorials on this topic.
 
 ## STEP 3: Download the various files and load them on your PC within your Arduino IDE file directory as follows:
 1. In a folder called GC9A01A_Clock_ESP32_Sound_GitHub, load the following files:
@@ -39,10 +39,10 @@ Rather than repeat the details of the earlier project, please refer to that proj
     - 0006.mp3
 
 ## STEP 4: Customise GC9A01A_Clock_ESP32_Sound_GitHub.ino
-1. Edit this file and enter your WiFi credentials (name and password)
+- Edit this file and enter your WiFi credentials (name and password)
 
 ## STEP 5: Suggested pinouts
-1. Below is a suggested pinout table but other pins can be used.
+- Below is a suggested pinout table but other pins can be used.
 
 
 | TFT_eSPI  | GC9A01    | ESP32 | Arduino | DFPlayer  | Speaker |
