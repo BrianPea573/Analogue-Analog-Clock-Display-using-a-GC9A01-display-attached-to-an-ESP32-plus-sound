@@ -42,7 +42,7 @@ Rather than repeat the details of the earlier project, please refer to that proj
 - Edit this file and enter your WiFi credentials (name and password)
 
 ## STEP 5: Suggested pinouts
-- Below is a suggested pinout table with connections but other pins can be used.
+- Below is how I connected the various components although other mappings would be valid, noting that some GPIO pins have restrictions:
 
 | TFT_eSPI  | GC9A01    | ESP32 | Arduino | DFPlayer  | Speaker |
 | --------  | ------    | ----- | ------- | --------  | ------- |
