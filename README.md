@@ -8,14 +8,14 @@ Rather than repeat the details of the earlier project, please refer to that proj
 - DFPlayer mini MP3 module
 - resistors: 3.3K, 2.2K 1K
 - jumper wires
-- unpowered speaker (8 ohm 1 watt cube speaker, as found in model railroading works well)
+- unpowered speaker (8 ohm 1 watt cube speaker, as found in model railroading, works well)
 
 ## STEP 1: Set up Arduino with DFPlayer
 1. There many tutorials that will fully explain how to connect a DFPlayer to an Arduino.
 1. Although any number of different pins can be used to attach the DFPlayer to the Arduino, I prefer to avoid the normal digital pins up to D13 so they can be used for other purposes. See below for the pins that I have used.
 
 ## STEP 2: Connect the Arduino and ESP32 for serial communication
-1. Again, there are any tutorials on this topic.
+1. Again, there are any number of tutorials on this topic.
 
 ## STEP 3: Suggested pinouts
 1. Below is a suggested pinout table but other pins can be used.
