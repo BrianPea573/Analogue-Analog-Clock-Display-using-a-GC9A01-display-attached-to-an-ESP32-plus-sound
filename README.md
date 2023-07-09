@@ -18,19 +18,30 @@ Rather than repeat the details of the earlier project, please refer to that proj
 ## STEP 2: Connect the Arduino and ESP32 for serial communication
 1. Again, there are any number of tutorials on this topic.
 
-## STEP 3: Download the various files and load them on your PC as follows:
+## STEP 3: Download the various files and load them on your PC within your Arduino IDE file directory as follows:
 1. In a folder called GC9A01A_Clock_ESP32_Sound_GitHub, load the following files:
-- BigBen_16bit.h
-- GC9A01A_Clock_ESP32_Sound_GitHub.ino
-- hourHand.h
-- minuteHand.h
-- NTP_Time.h
-- secondHand.h
+    - BigBen_16bit.h
+    - GC9A01A_Clock_ESP32_Sound_GitHub.ino
+    - hourHand.h
+    - minuteHand.h
+    - NTP_Time.h
+    - secondHand.h
 1. In a folder called Arduino_Clock_Chimes, load the following files:
-- folder called mp3
-- Arduino_Clock_Chimes.ino
+    - Arduino_Clock_Chimes.ino
+1. In the folder Arduino_Clock_Chimes:
+    - create a sub-folder called mp3
+1. In the sub-folder called mp3, load the following files:
+    - 0001.mp3
+    - 0002.mp3
+    - 0003.mp3
+    - 0004.mp3
+    - 0005.mp3
+    - 0006.mp3
 
-## STEP 4: Suggested pinouts
+## STEP 4: Customise GC9A01A_Clock_ESP32_Sound_GitHub.ino
+1. Edit this file and enter your WiFi credentials (name and password)
+
+## STEP 5: Suggested pinouts
 1. Below is a suggested pinout table but other pins can be used.
 
 
