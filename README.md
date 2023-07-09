@@ -18,7 +18,7 @@ Rather than repeat the details of the earlier project, please refer to that proj
 1. Again, there are any tutorials on this topic.
 
 ## STEP 3: Suggested pinouts
-1. Below is a suggested pinout table but other pins cn be used.
+1. Below is a suggested pinout table but other pins can be used.
 
 
 | TFT_eSPI  | GC9A01    | ESP32 | Arduino | DFPlayer  | Speaker |
