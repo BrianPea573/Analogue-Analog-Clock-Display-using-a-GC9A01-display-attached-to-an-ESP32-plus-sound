@@ -33,11 +33,6 @@ strikes on the quarter hour.
 #include "Arduino.h"
 
 long unsigned moduloTime;
-//int partHour;
-//int test15minute;
-//int test30minute;
-//int test45minute;
-//int test0minute;
 byte h;
 time_t t;
 byte busy_pin = 15;                   //DFPLayer Status LOW means playing/HIGH means not playing
@@ -66,15 +61,15 @@ void setup() {
   // Start each software serial port
   esp.begin(baudRate);
   delay(1000);
+  buffer[0] = '0';                    // initialise 1st position to ensure latest time package is used
   t = now();
   Serial.println("Arduino Receiver Starting");
   print_current_time();
   esp.print("0");                     // indicate to sender that receiver is ready for time transmission
-
+  esp.listen();
 }
 
 void loop() {
-  esp.listen();
   while (NTP_time_status == 0) read_ESP_data();   // read NTP time from ESP
   manage_sound();                                 // manage chimes
 }
@@ -98,15 +93,13 @@ void read_ESP_data() {
       AEDTString[i] = buffer[i+3];
     }
     AEDTString[10] = '\0';
-
     // print the AET time on the monitor
     Serial.println("TIME FROM ESP: ");
     for (i=0; i<10; i++) {
       Serial.print(AEDTString[i]);
     }
     AEDTTime = atol(AEDTString);          // convert string to long integer
-    
-    setTime(AEDTTime+2);                  // set internal clock a little ahead to allow time to run MP3 player
+    setTime(AEDTTime + 2);                // set internal clock a little ahead to allow time to run MP3 player
     print_current_time();                 // print local time
     NTP_time_status = 1;                  // indicate NTP time has been set
     chimes_num = 1;    
@@ -129,7 +122,7 @@ void manage_sound() {
       if (moduloTime == 30*60) halfhourChimes();
       if (moduloTime == 45*60) threequarterhourChimes();
 //      }
-  manageDFPlayer();
+      manageDFPlayer();
 }
   
 void hourChimes() {
@@ -194,11 +187,11 @@ void manageDFPlayer () {
         myDFPlayer.playMp3Folder(chimes_num);
         chimes_num = 0;                         // indicate chimes playing is complete
       }
-    else if (strike_num > 0) {
-      if (strike_num == 1) myDFPlayer.playMp3Folder(6);
-      else myDFPlayer.playMp3Folder(5);
-      strike_num = strike_num -1;               // decrement number of strikes still to play
+      else if (strike_num > 0) {
+        if (strike_num == 1) myDFPlayer.playMp3Folder(6);
+        else myDFPlayer.playMp3Folder(5);
+        strike_num = strike_num -1;             // decrement number of strikes still to play
       }
-    delay(80);                                  //delay a little bit before checking busy pin
    }
+    delay(100);                                 //delay a little bit before checking again
 }

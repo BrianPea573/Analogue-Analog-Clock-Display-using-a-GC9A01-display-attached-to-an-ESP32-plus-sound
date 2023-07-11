@@ -63,9 +63,6 @@ x = X coordinate
 y = Y coordinate
 ****************************************************************************************
 
-*/
-
-/*
 *******************
 Arduino Time Sync from NTP Server using ESP32 WiFi module 
 
@@ -162,6 +159,7 @@ void setup() {
   hh = hour(t);                   // the hour now  (0-23)
   mm = minute(t);                 // the minute now (0-59)
   ss = second(t);                 // the second now (0-59)
+  send_NTP_Data();                // send NTP data to Arduino
 
 // initial setup of display unit
   tft.init();                     // initialise the display unit
@@ -178,13 +176,14 @@ void setup() {
   createMinuteHand();
   createHourHand();
 
-// Send NTP Time to Arduino with MP3 sounds
-  Serial.println ("Ready to send NTP");
-  Send_ESP_Data();
 }        
         
 void loop() {
+  manage_ESP_Data();          // send time data to Arduino if necessary
+  manage_Display();           // manage clock display
+}
 
+void manage_Display() {
 // Only update the screen once every second and at the start
   if(millis()-ms>=1000 || start) {
     ms = millis();
@@ -250,6 +249,37 @@ void clockUpdate(int16_t angle_secondHand, int16_t angle_minuteHand, int16_t ang
   clock_Face.pushSprite(0,0,TFT_TRANSPARENT);
 }
 
+void manage_ESP_Data() {
+  check_Response();
+}
+
+void check_Response() {
+    int i = 0;
+    if (uno.available() > 0) {
+    // read the incoming data:
+      while (uno.available() > 0) {
+        buffer[i] = uno.read();       // read all data
+        i = i+1;
+      }
+      if (buffer[0] == '1') {       // if "1", confirms receiver received the NTP time correctly
+        Serial.println("NTP time correctly transmitted");
+        print_current_time();
+        syncValid = true;           // indicate that ESP32 can stop sending NTP time
+      }
+      else {
+      Serial.println("NTP time not correctly transmitted");
+      send_NTP_Data();
+      }
+    }
+}
+
+void send_NTP_Data(){
+  t = now();                        // returns the current time as seconds since Jan 1 1970
+  uno.print("AET");                 // send prefix for receiver to validate good transmission
+  uno.println(t);             // send time in seconds
+  Serial.println("NTP sent to Arduino");  
+}
+
 void print_current_time() {
   t = now();
   Serial.print(day(t));
@@ -266,40 +296,4 @@ void print_current_time() {
   Serial.print(":");
   if(second(t) < 10) Serial.print("0");
   Serial.println(second(t));
-}
-
-void Send_ESP_Data() {
-  uno.print("AET");                 // send prefix for receiver to validate good transmission
-  uno.println(eastern);             // send time in seconds
-  Serial.println("NTP sent to Arduino - waiting for response");  
-  while (!syncValid) {              // keep looping until good transmission received by receiver
-    int i = 0;
-    if (uno.available() > 0) {
-    // read the incoming data:
-      while (uno.available() > 0) {
-        buffer[i] = uno.read();       // read all data
-        i = i+1;
-      }
-      if (buffer[0] == '1') {       // if "1", confirms receiver received the NTP time correctly
-        print_current_time();
-        syncValid = true;           // indicate that ESP32 can stop sending NTP time
-      }
-      else {
-        delay(100);                 // transmission was not valid but wait a little before re-sending
-        eastern = now();            // reset time in readiness for next transmission
-        uno.print("AET");
-        uno.print(eastern);
-        Serial.println("NTP sent to Arduino - waiting for response"); 
-      }
-    }
-    else {
-      delay (100);                // wait a little for receiver to start listening
- 
-    }
-  }
-  Serial.println("NTP time transmitted");
-  t = now();                      // returns the current time as seconds since Jan 1 1970
-  hh = hour(t);                   // the hour now  (0-23)
-  mm = minute(t);                 // the minute now (0-59)
-  ss = second(t);                 // the second now (0-59)
 }
