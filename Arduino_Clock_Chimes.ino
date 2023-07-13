@@ -1,7 +1,10 @@
 /********************
-- Arduino Time Sync from NTP Server using ESP WiFi module.
-- This is the code for the Arduino to receive the time via serial communication and then sound the chimes and
-strikes on the quarter hour.
+Arduino Time Sync from NTP Server using ESP WiFi module.
+
+This is the code for the Arduino to receive the time via serial communication and then sound the chimes and strikes on the quarter hour. The design is that the Arduino requests the latest time from the ESP32, which with its WiFi capabilities has secured NTP time via the internet. The time packet sent from the ESP2 should start with the characters "AET" which the Arduino checks to ensure it is a good transmission. More elaborate checksums etc were not considered necessary. If the packet is not valid, then the Arduino will request another transmission from the ESP32. To cover the scenario where the Ardunio request is simply 'lost', a periodic check e.g. every 5 seconds is done on the Arduino side and if a valid time packet has still not been received, the Arduino will again request another transmission. This will continue until a valid time transmission is received, where upon the Arduino will update its internal clock. It can then proceed to manage the chimes and strikes using its DFPlayer.
+
+The Arduino will continuously check to see the ESP32 sends another time packet. This covers the scenario where the ESP32 has had its power cut and has restarted. Whenever the ESP32 restarts, it will attempt to send a time packet. Although this is not entirelty necessary, it makes for a quicker start-up when both microprocessors are started together.
+
  *******************
   
  Pinouts used for this sketch (other pin arrangements would also work):
@@ -32,6 +35,9 @@ strikes on the quarter hour.
 #include "DFRobotDFPlayerMini.h"
 #include "Arduino.h"
 
+int read_ESP_delay  = 5000;           // delay before requesting NTP time again
+unsigned long next_ESP_time;         // time of next NTP time request
+
 long unsigned moduloTime;
 byte h;
 time_t t;
@@ -56,17 +62,16 @@ DFRobotDFPlayerMini myDFPlayer;
 
 void setup() {
   initialiseDFPlayer();               //initialise DFPlayer
-  // Open serial communications and wait for port to open:
-   Serial.begin(baudRate);
   // Start each software serial port
+  Serial.begin(baudRate);
   esp.begin(baudRate);
-  delay(1000);
   buffer[0] = '0';                    // initialise 1st position to ensure latest time package is used
   t = now();
   Serial.println("Arduino Receiver Starting");
   print_current_time();
   esp.print("0");                     // indicate to sender that receiver is ready for time transmission
   esp.listen();
+  next_ESP_time = (millis() + read_ESP_delay); // set time of next NTP request if initial request "lost"
 }
 
 void loop() {
@@ -104,11 +109,18 @@ void read_ESP_data() {
     NTP_time_status = 1;                  // indicate NTP time has been set
     chimes_num = 1;    
     strike_num = 0;
-    manageDFPlayer();                     // play short chimes to indicate all is well at startup           
+    manageDFPlayer();                     // play short chimes to indicate all is well at startup
   }
   else {
     esp.print("0"); 
     Serial.println("Data no good");
+    delay(100);
+    }
+  }
+  else {
+    if (millis() >= next_ESP_time) {                // check if time to request another time transmission
+      next_ESP_time = millis() + read_ESP_delay;    // set time for next check
+      esp.print("0");                               // indicate to sender that receiver requires another time transmission
     }
   }
 } 

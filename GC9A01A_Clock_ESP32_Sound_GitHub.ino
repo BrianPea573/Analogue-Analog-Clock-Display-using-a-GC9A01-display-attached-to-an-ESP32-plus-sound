@@ -1,4 +1,12 @@
-/*
+/********************
+
+Arduino Time Sync from NTP Server using ESP WiFi module.
+
+This is the code for the ESP32 to send the time via serial communication and then manage the clock display on the GC9a)1 display unit. The design is that the Arduino requests the latest time from the ESP32, which with its WiFi capabilities has secured NTP time via the internet. The time packet sent from the ESP2 should start with the characters "AET" which the Arduino checks to ensure it is a good transmission. More elaborate checksums etc were not considered necessary. If the packet is not valid, then the Arduino will request another transmission from the ESP32. To cover the scenario where the Ardunio request is simply 'lost', a periodic check e.g. every 5 seconds is done on the Arduino side and if a valid time packet has still not been received, the Arduino will again request another transmission. This will continue until a valid time transmission is received, where upon the Arduino will update its internal clock. The ESP32 can then proceed to manage the time display on the GC9A01 display unit.
+
+The Arduino will continuously check to see the ESP32 sends another time packet. This covers the scenario where the ESP32 has had its power cut and has restarted. Whenever the ESP32 restarts, it will attempt to send a time packet. Although this is not entirelty necessary, it makes for a quicker start-up when both microprocessors are started together.
+
+/********************
 
 This sketch draws an analogue clock face (BigBen) and moves clock hands to display the correct time.
 
@@ -131,7 +139,6 @@ byte start = 1;         // initial start flag
 byte display_sHand = 1; // display seconds hand 0=no, 1=yes
 byte hh, mm,ss;
 char buffer[20];
-bool syncValid = false;
 
 #define RXD2 16         // ESP32 pin for receiving data from Arduino
 #define TXD2 17         // ESP32 pin for transmitting data to Arduino 
@@ -250,10 +257,6 @@ void clockUpdate(int16_t angle_secondHand, int16_t angle_minuteHand, int16_t ang
 }
 
 void manage_ESP_Data() {
-  check_Response();
-}
-
-void check_Response() {
     int i = 0;
     if (uno.available() > 0) {
     // read the incoming data:
@@ -264,7 +267,6 @@ void check_Response() {
       if (buffer[0] == '1') {       // if "1", confirms receiver received the NTP time correctly
         Serial.println("NTP time correctly transmitted");
         print_current_time();
-        syncValid = true;           // indicate that ESP32 can stop sending NTP time
       }
       else {
       Serial.println("NTP time not correctly transmitted");
