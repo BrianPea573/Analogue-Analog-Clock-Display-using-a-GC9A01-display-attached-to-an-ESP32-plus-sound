@@ -1,3 +1,6 @@
+
+![Alt text](Images/GC9A01_Analogue_Clock_GIF.gif)
+
 # GC9A01 Analogue (Analog) Clock Display with sound
 This project builds on an earlier project 'Analogue (Analog) Clock Display using a GC9A01 display attached to an ESP32' but adds the sounds of chimes and strikes as per a large clock such as Big Ben.
 An ESP32 using its WiFi capabilities acquires NTP time, transmits this time to an Arduino with a DFPlayer to make sounds, and then the ESP32 displays an analogue clock on the GC9A01 display unit.
