@@ -56,10 +56,10 @@ Rather than repeat the details of the earlier project, please refer to that proj
 |   CS      |  CS       | GP15  |         |           |         |
 |   DC      |  DC       | GP2   |         |           |         |
 |   RST     |  RST      | GP4   |         |           |         |
-|           |           | GND   | GND     |           |         |
 |           |           | GP16  | D5      |           |         | Note: 3.3k and 2.2k resistors in step-down shifter
 |           |           | GP17  | D4      |           |         |
 |           |           |       | 5V      | VCC       |         |
+|           |           |       | GND     | GND      |         |
 |           |           |       | D15/A1  | BUSY      |         |
 |           |           |       | D16/A2  | RX        |         | Note: 1K resistor between D16/A2 and Rx
 |           |           |       | D17/A3  | TX        |         |
