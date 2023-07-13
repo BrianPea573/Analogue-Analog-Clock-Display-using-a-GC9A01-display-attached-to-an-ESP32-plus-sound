@@ -64,3 +64,5 @@ Rather than repeat the details of the earlier project, please refer to that proj
 |           |           |       |         | SPK1      | Input 1 | 8 ohm 1 watt cube speaker works well
 |           |           |       |         | SPK2      | Input 2 |
 
+## Known Limitations
+Although the code has been designed to handle interruptions to power to either or both of the Arduino and ESP323 boards, there is a known problem with Arduino resets. The board is reset when the Arduino IDE opens the serial port, or by opening the serial monitor. Opening the serial port from the USB host PC or even by reconnecting 5V power often resets the board, but not always. If the serial ports do not open normally, the Reset button on the board will reset the board.
