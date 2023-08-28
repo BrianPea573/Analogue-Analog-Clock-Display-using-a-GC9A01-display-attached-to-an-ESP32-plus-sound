@@ -1,9 +1,11 @@
 /********************
 Arduino Time Sync from NTP Server using ESP WiFi module.
 
-This is the code for the Arduino to receive the time via serial communication and then sound the chimes and strikes on the quarter hour. The design is that the Arduino requests the latest time from the ESP32, which with its WiFi capabilities has secured NTP time via the internet. The time packet sent from the ESP2 should start with the characters "AET" which the Arduino checks to ensure it is a good transmission. More elaborate checksums etc were not considered necessary. If the packet is not valid, then the Arduino will request another transmission from the ESP32. To cover the scenario where the Ardunio request is simply 'lost', a periodic check e.g. every 5 seconds is done on the Arduino side and if a valid time packet has still not been received, the Arduino will again request another transmission. This will continue until a valid time transmission is received, where upon the Arduino will update its internal clock. It can then proceed to manage the chimes and strikes using its DFPlayer.
-
-The Arduino will continuously check to see the ESP32 sends another time packet. This covers the scenario where the ESP32 has had its power cut and has restarted. Whenever the ESP32 restarts, it will attempt to send a time packet. Although this is not entirelty necessary, it makes for a quicker start-up when both microprocessors are started together.
+This is the code for the Arduino to receive the time via serial communication and then sound the chimes and strikes on the quarter hour. The design is that the
+Arduino requests the latest time from the ESP32, which with its WiFi capabilities has secured NTP time via the internet. The time packet sent from the ESP32
+should start with the characters "AET" which the Arduino checks to ensure it is a good transmission. More elaborate checksums etc were not considered necessary.
+If the packet is not valid, then the Arduino will request another transmission from the ESP32. To cover the scenario where the Ardunio request is simply 'lost', a
+periodic check e.g. every 5 seconds is done on the Arduino side and if a valid time packet has still not been received, the Arduino will again request another transmission. This will continue until a valid time transmission is received, where upon the Arduino will update its internal clock. It can then proceed to manage the chimes and strikes using its DFPlayer.
 
  *******************
   
